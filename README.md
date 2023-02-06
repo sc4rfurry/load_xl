@@ -60,6 +60,24 @@ $ key2: value2
 
 The library provides a comprehensive error and exception handling mechanism to ensure the stability and reliability of your code.
 
+
+# Change Log
+==============
+
+0.1.0 (06/02/2023)
+-------------------
+- initial release
+
+0.1.1 (06/02/2023)
+-------------------
+- Fixed README.md
+
+0.2.0 (07/02/2023)
+-------------------
+- Fixed Some Bugs
+- Now you can load any `.ini`, `.yaml` and `.json` file directely
+- Check `tests` folder for example usage
+
 ## Contributing
 
 If you want to contribute to load_xl, please reach out to the maintainers. We welcome contributions, bug reports, and feedback.

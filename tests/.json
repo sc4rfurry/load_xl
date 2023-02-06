@@ -1,0 +1,15 @@
+{
+    "database": {
+      "host": "localhost",
+      "port": 5432,
+      "database": "test_db",
+      "user": "test_user",
+      "password": "test_password"
+    },
+    "email": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "username": "test_email@gmail.com",
+      "password": "test_email_password"
+    }
+  }  

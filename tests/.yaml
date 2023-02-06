@@ -1,0 +1,15 @@
+# file: .yaml
+# sample configuration in YAML format
+
+server:
+  host: localhost
+  port: 8080
+
+database:
+  host: db.example.com
+  port: 3306
+  username: user
+  password: secret
+
+app:
+  log_level: debug
