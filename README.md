@@ -43,7 +43,7 @@ The unique syntax configuration file should follow the following rules:
 + Lines starting with & or % are ignored as comments.
 + Only values that start with $ are taken into consideration.
 
-### Example
+### Example (`.configx` file format)
 ```bash
 # This is a comment line, ignored by the parser
 & This is a comment line &, ignored by the parser
@@ -51,11 +51,82 @@ The unique syntax configuration file should follow the following rules:
 
 
 # Keys and Values
-$ key1: value1 # This line follows the correct syntax for key-value pair
+$ key1: value1 # Returns value1
 $ key2: value2
-- key3: value3 # This line follows the correct syntax for environment variable
+- key3: value3 # Sets environment variable key3 to value3
 ```
+#
 
+## Supported File Types
+- .envi
+- .configx
+- .ini
+- .yaml
+- .json
+- **Any other file type**
+#
+
+## Example Code:
+```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import load_xl
+import os
+
+
+
+# Test envi file parsing and loading into os.environ
+try:
+    print("\n[+] Loading envi file...")
+    load_xl.load_envi_file('.envi')
+    print(os.environ['TEST'])
+    print(os.environ['TEST_ENV'])
+except load_xl.EnviFileParsingError as e:
+    print("Error in parsing envi file: {e}")
+
+
+# Test config file parsing and loading into os.environ
+try:
+    print("\n[+] Loading config file...")
+    print(load_xl.read_config_file('.configx'))
+    print(os.environ['CONFIG_ENV'])
+except load_xl.ConfigFileParsingError as e:
+    print('Error in parsing config file: {e}')
+
+
+# Test ini file parsing and returning as dict
+try:
+    print("\n[+] Loading ini file...")
+    ini_file = load_xl.load_ini_file('.ini')
+    print(ini_file)
+except load_xl.IniFileParsingError as e:
+    print('Error in parsing ini file: {e}')
+
+
+# Test yaml file parsing and returning as dict
+try:
+    print("\n[+] Loading yaml file...")
+    yaml_file = load_xl.load_yaml_file('.yaml')
+    print(yaml_file)
+except load_xl.YamlFileParsingError as e:
+    print('Error in parsing yaml file: {e}')
+
+
+# Test json file parsing and returning as dict
+try:
+    print("\n[+] Loading json file...")
+    json_data = load_xl.load_json_file('.json')
+    print(json_data)
+except load_xl.JsonFileParsingError as e:
+    print('Error in parsing json file: {e}')
+```
+#
+## Pypi Package
+- You can install this as a python3 library at [pypi](https://pypi.org/project/load-xl/) 
+
+[![PyPI version](https://badge.fury.io/py/load-xl.svg)](https://badge.fury.io/py/load-xl)
+
+#
 ## Error and Exception handling
 
 The library provides a comprehensive error and exception handling mechanism to ensure the stability and reliability of your code.
