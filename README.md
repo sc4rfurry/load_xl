@@ -1,11 +1,26 @@
-# `load_xl` - A Python Configuration Parser Library
+# **load_xl** - A Python Configuration Parser Library
 
-load_xl is a simple and easy to use library for parsing environment variable and configuration files in `Python`. It provides a convenient way to load environment variables from .envi files and parse unique syntax configuration files.
-Installation
+`load_xl` is a simple and easy to use library for parsing environment variable and configuration files in `Python`. It provides a convenient way to load environment variables from .envi files and parse unique syntax configuration files.
+> **Note:** This library is still in development and is not yet ready for production use. Go to [pypi](https://pypi.org/project/load-xl/) to install the latest version and visit [load_xl](https://sc4rfurry.github.io/get_load_xl/) webite.
+
+#
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Example Code](#example-code)
+- [Supported File Types](#supported-file-types)
+- [Pypi Package](#pypi-package)
+- [Error and Exception handling](#error-and-exception-handling)
+- [Change Log](#change-log)
+#
+## Installation
 
 The package can be installed using pip.
 ```bash
-pip install load-xl
+pip3 install load-xl
+OR
+python3 -m pip install load-xl
 ```
 
 ## Usage
@@ -63,7 +78,6 @@ $ key2: value2
 - .ini
 - .yaml
 - .json
-- **Any other file type**
 #
 
 ## Example Code:
