@@ -42,6 +42,13 @@ config = load_xl.read_config_file('.configx')
 + The `read_config_file` function takes a file path to a unique syntax configuration file and returns a dictionary of all the keys and values defined in the file.
 .envi file format
 
++ The `load_ini_file` function takes a file path to a .ini file and returns a dictionary of all the keys and values defined in the file.
+
++ The `load_yaml_file` function takes a file path to a .yaml file and returns a dictionary of all the keys and values defined in the file.
+
++ The `load_json_file` function takes a file path to a .json file and returns a dictionary of all the keys and values defined in the file.
+
+#
 The .envi file should contain one environment variable per line in the following format:
 
 ```bash
