@@ -1,178 +1,168 @@
-# **load_xl** - A Python Configuration Parser Library
+```
+ _                    _          _
+| |    ___   __ _  __| |   __  _| |
+| |   / _ \ / _` |/ _` |   \ \/ / |
+| |__| (_) | (_| | (_| |    >  <| |
+|_____\___/ \__,_|\__,_|   /_/\_\_|
 
-`load_xl` is a simple and easy to use library for parsing environment variable and configuration files in `Python`. It provides a convenient way to load environment variables from .envi files and parse unique syntax configuration files.
-> **Note:** This library is still in development and is not yet ready for production use. Go to [pypi](https://pypi.org/project/load-xl/) to install the latest version and visit [load_xl](https://sc4rfurry.github.io/get_load_xl/) webite.
-
-#
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Example Code](#example-code)
-- [Supported File Types](#supported-file-types)
-- [Pypi Package](#pypi-package)
-- [Error and Exception handling](#error-and-exception-handling)
-- [Change Log](#change-log)
-#
-## Installation
-
-The package can be installed using pip.
-```bash
-pip3 install load-xl
-OR
-python3 -m pip install load-xl
+   Configuration Parser Extraordinaire
 ```
 
-## Usage
+# load_xl
 
-Here's how to use load_xl in your Python code:
+[![PyPI version](https://badge.fury.io/py/load-xl.svg)](https://badge.fury.io/py/load-xl)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python Versions](https://img.shields.io/pypi/pyversions/load-xl.svg)](https://pypi.org/project/load-xl/)
+
+`load_xl` is a versatile Python library for parsing various configuration file formats, including `.env`, `.ini`, `.yaml`, `.json`, `.toml`, and `.xml`. It provides a unified interface for loading and validating configuration data, making it easy to work with different file formats in your projects.
+
+## ✨ Features
+
+```
+┌─────────────────────────────────────────────┐
+│ ⚙️  Multiple configuration file formats      │
+│ 🔄 Automatic environment variable substition │
+│ 🛡️  JSON Schema validation                   │
+│ 🔍 File watching for auto config reloading   │
+│ 🖥️  Command-line interface (CLI)             │
+│ 🐍 Compatible with Python 3.6+               │
+└─────────────────────────────────────────────┘
+```
+
+## 🚀 Installation
+
+Install `load_xl` using pip:
+
+```bash
+pip install load-xl
+```
+
+## 💻 Usage
+
+### As a Library
 
 ```python
+from load_xl import load_config
 
-import load_xl
-# Load environment variables from .envi file
-load_xl.load_envi_file('.envi')
+# Load a configuration file
+config = load_config('path/to/your/config.yaml')
 
-# Read configuration file
-config = load_xl.read_config_file('.configx')
+# Load with schema validation
+schema = {...}  # Your JSON schema
+config = load_config('path/to/your/config.json', schema=schema)
+
+# Access configuration data
+print(config['some_key'])
 ```
 
-+ The `load_envi_file` function takes a file path to a .envi file and loads the defined environment variables to the environment.
-
-+ The `read_config_file` function takes a file path to a unique syntax configuration file and returns a dictionary of all the keys and values defined in the file.
-.envi file format
-
-+ The `load_ini_file` function takes a file path to a .ini file and returns a dictionary of all the keys and values defined in the file.
-
-+ The `load_yaml_file` function takes a file path to a .yaml file and returns a dictionary of all the keys and values defined in the file.
-
-+ The `load_json_file` function takes a file path to a .json file and returns a dictionary of all the keys and values defined in the file.
-
-#
-The .envi file should contain one environment variable per line in the following format:
+### Command-line Interface
 
 ```bash
-# Key and Value
-KEY=VALUE
+load_xl path/to/your/config.yaml --output
+load_xl path/to/your/config.json --validate --schema path/to/schema.json
 ```
 
-Lines starting with a # symbol will be ignored as comments.
-Unique syntax configuration file format
+## 📁 Supported File Formats
 
-The unique syntax configuration file should follow the following rules:
-
-+ Lines starting with a - symbol are treated as environment variables and split on the : sign.
-+ Lines starting with & or % are ignored as comments.
-+ Only values that start with $ are taken into consideration.
-
-### Example (`.configx` file format)
-```bash
-# This is a comment line, ignored by the parser
-& This is a comment line &, ignored by the parser
-% This is a comment line %, ignored by the parser
-
-
-# Keys and Values
-$ key1: value1 # Returns value1
-$ key2: value2
-- key3: value3 # Sets environment variable key3 to value3
 ```
-#
+┌─────┬───────────────────────────────┐
+│.env │ Environment variables         │
+│.ini │ INI configuration files       │
+│.yaml│ YAML configuration files      │
+│.json│ JSON configuration files      │
+│.toml│ TOML configuration files      │
+│.xml │ XML configuration files       │
+└─────┴───────────────────────────────┘
+```
 
-## Supported File Types
-- .envi
-- .configx
-- .ini
-- .yaml
-- .json
-#
+## 🔬 Testing
 
-## Example Code:
+The `load_xl` library includes a comprehensive test suite. You can find the test script in the `test` directory. Here's a snippet of the `test.py` file:
+
 ```python
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import load_xl
-import os
+from load_xl import load_config, FileParsingError
 
-
-
-# Test envi file parsing and loading into os.environ
+# Test .env file parsing and loading
 try:
-    print("\n[+] Loading envi file...")
-    load_xl.load_envi_file('.envi')
-    print(os.environ['TEST'])
-    print(os.environ['TEST_ENV'])
-except load_xl.EnviFileParsingError as e:
-    print("Error in parsing envi file: {e}")
+    print("\n[+] Loading .env file...")
+    env_config = load_config(".env")
+    print(env_config.get("TEST"))
+    print(env_config.get("TEST_ENV"))
+except FileParsingError as e:
+    print(f"Error in parsing .env file: {e}")
 
+# ... (tests for other file formats)
 
-# Test config file parsing and loading into os.environ
+# Test .xml file parsing and returning as dict
 try:
-    print("\n[+] Loading config file...")
-    print(load_xl.read_config_file('.configx'))
-    print(os.environ['CONFIG_ENV'])
-except load_xl.ConfigFileParsingError as e:
-    print('Error in parsing config file: {e}')
-
-
-# Test ini file parsing and returning as dict
-try:
-    print("\n[+] Loading ini file...")
-    ini_file = load_xl.load_ini_file('.ini')
-    print(ini_file)
-except load_xl.IniFileParsingError as e:
-    print('Error in parsing ini file: {e}')
-
-
-# Test yaml file parsing and returning as dict
-try:
-    print("\n[+] Loading yaml file...")
-    yaml_file = load_xl.load_yaml_file('.yaml')
-    print(yaml_file)
-except load_xl.YamlFileParsingError as e:
-    print('Error in parsing yaml file: {e}')
-
-
-# Test json file parsing and returning as dict
-try:
-    print("\n[+] Loading json file...")
-    json_data = load_xl.load_json_file('.json')
-    print(json_data)
-except load_xl.JsonFileParsingError as e:
-    print('Error in parsing json file: {e}')
+    print("\n[+] Loading .xml file...")
+    xml_config = load_config("test.xml")
+    print(xml_config)
+except FileParsingError as e:
+    print(f"Error in parsing .xml file: {e}")
 ```
-#
-## Pypi Package
-- You can install this as a python3 library at [pypi](https://pypi.org/project/load-xl/) 
 
-[![PyPI version](https://badge.fury.io/py/load-xl.svg)](https://badge.fury.io/py/load-xl)
+To run the tests, navigate to the `test` directory and execute:
 
-#
-## Error and Exception handling
+```bash
+python test.py
+```
 
-The library provides a comprehensive error and exception handling mechanism to ensure the stability and reliability of your code.
+## 🔧 Advanced Features
+
+### Environment Variable Substitution
+
+`load_xl` automatically replaces `${VAR}` patterns in your configuration files with the corresponding environment variable values.
+
+### File Watching
+
+```python
+from load_xl import ConfigFileWatcher, YamlFileParser
+
+watcher = ConfigFileWatcher('config.yaml', YamlFileParser)
+watcher.start()
+
+# Your application logic here
+
+watcher.stop()
+```
+##
+
+> **Note:** There are example schema files provided in **schemas** folder.
+##
 
 
-# Change Log
-==============
+## 🤝 Contributing
 
-0.1.0 (06/02/2023)
--------------------
-- initial release
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-0.1.1 (06/02/2023)
--------------------
-- Fixed README.md
+## 📜 License
 
-0.2.0 (07/02/2023)
--------------------
-- Fixed Some Bugs
-- Now you can load any `.ini`, `.yaml` and `.json` file directely
-- Check `tests` folder for example usage
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contributing
+## 👨‍💻 Author
 
-If you want to contribute to load_xl, please reach out to the maintainers. We welcome contributions, bug reports, and feedback.
+- **sc4rfurry** - [GitHub](https://github.com/sc4rfurry)
 
-## License
-load_xl is released under the MIT License.
+## 🙏 Acknowledgments
+
+- Thanks to all contributors and users of `load_xl`
+- Inspired by the need for a unified configuration parsing solution
+- This project was developed with some assistance from **ChatGPT 4.0** , showcasing the potential of AI-assisted coding and for my peronal experience too
+
+---
+
+For more information and updates, please visit the [GitHub repository](https://github.com/sc4rfurry/load_xl).
+
+```
+ ______________________________
+< Thank you for using load_xl! >
+ ------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+```

@@ -1,0 +1,14 @@
+# test.toml
+
+[server]
+host = "localhost"
+port = 8080
+
+[database]
+user = "admin"
+password = "password123"
+database = "test_db"
+
+[logging]
+level = "DEBUG"
+file = "/var/log/app.log"
